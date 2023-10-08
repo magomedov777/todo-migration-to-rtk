@@ -97,6 +97,19 @@ const addTask = createAppAsyncThunk<any, any>("tasks/addTask", async (arg, thunk
   const {dispatch, rejectWithValue} = thunkApi;
   try{
 
+     dispatch(appActions.setAppStatus({ status: "loading" }));
+    const res = await todolistsAPI
+      .createTask(todolistId, title)
+      
+        if (res.data.resultCode === 0) {
+          const task = res.data.data.item;
+          dispatch(tasksActions.addTask({ task }));
+          dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        } else {
+          handleServerAppError(res.data, dispatch);
+        }
+     
+
   }catch(e) {
     handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
