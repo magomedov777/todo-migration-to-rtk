@@ -61,6 +61,19 @@ const slice = createSlice({
 
 // thunks
 
+const removeTask = createAppAsyncThunk<any, any>("tasks/removeTask", async (arg: ArgType, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
+    const { taskId, todolistId } = arg;
+    const res = await todolistsAPI.deleteTask(todolistId, taskId);
+    dispatch(tasksActions.removeTask({ taskId, todolistId }));
+    return { arg };
+  } catch (e: any) {
+    handleServerNetworkError(e, dispatch);
+    return rejectWithValue(null);
+  }
+});
+
 const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, string>(
   "tasks/fetchTasks",
   async (todolistId, thunkAPI) => {
@@ -78,18 +91,19 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
   }
 );
 
-const removeTask = createAppAsyncThunk<any, any>("tasks/removeTask", async (arg: ArgType, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    const { taskId, todolistId } = arg;
-    const res = await todolistsAPI.deleteTask(todolistId, taskId);
-    dispatch(tasksActions.removeTask({ taskId, todolistId }));
-    return { arg };
-  } catch (e: any) {
+
+
+const addTask = createAppAsyncThunk<any, any>("tasks/addTask", async (arg, thunkApi) => {
+  const {dispatch, rejectWithValue} = thunkApi;
+  try{
+
+  }catch(e) {
     handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
+      return rejectWithValue(null);
   }
-});
+})
+
+
 
 export const addTaskTC =
   (title: string, todolistId: string): AppThunk =>
