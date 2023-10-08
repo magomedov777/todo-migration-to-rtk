@@ -98,7 +98,8 @@ const addTask = createAppAsyncThunk<any, any>("tasks/addTask", async (arg, thunk
   try{
 
   }catch(e) {
-    
+    handleServerNetworkError(e, dispatch);
+      return rejectWithValue(null);
   }
 })
 
