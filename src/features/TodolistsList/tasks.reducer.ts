@@ -161,7 +161,7 @@ export const updateTaskTC =
 
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
-export const tasksThunks = { fetchTasks, removeTask };
+export const tasksThunks = { fetchTasks, removeTask, addTask };
 
 // types
 export type UpdateDomainTaskModelType = {
