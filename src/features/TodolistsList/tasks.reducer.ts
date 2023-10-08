@@ -91,7 +91,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
   }
 );
 
-const addTask = createAppAsyncThunk<any, { todolistId: string; title: string }>(
+const addTask = createAppAsyncThunk<{ task: TaskType }, { todolistId: string; title: string }>(
   "tasks/addTask",
   async (arg, thunkApi) => {
     const { dispatch, rejectWithValue } = thunkApi;
@@ -101,37 +101,19 @@ const addTask = createAppAsyncThunk<any, { todolistId: string; title: string }>(
 
       if (res.data.resultCode === 0) {
         const task = res.data.data.item;
-        dispatch(tasksActions.addTask({ task }));
         dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        return { task };
       } else {
         handleServerAppError(res.data, dispatch);
+        return rejectWithValue(null);
       }
-    } catch (e) {
+    } catch (e: any) {
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
   }
 );
 
-export const _addTaskTC =
-  (title: string, todolistId: string): AppThunk =>
-  (dispatch) => {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
-    todolistsAPI
-      .createTask(todolistId, title)
-      .then((res) => {
-        if (res.data.resultCode === 0) {
-          const task = res.data.data.item;
-          dispatch(tasksActions.addTask({ task }));
-          dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        } else {
-          handleServerAppError(res.data, dispatch);
-        }
-      })
-      .catch((error) => {
-        handleServerNetworkError(error, dispatch);
-      });
-  };
 export const updateTaskTC =
   (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk =>
   (dispatch, getState) => {
