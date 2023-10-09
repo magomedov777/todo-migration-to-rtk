@@ -1,4 +1,11 @@
-import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "api/todolists-api";
+import {
+  AddTaskArgType,
+  TaskPriorities,
+  TaskStatuses,
+  TaskType,
+  todolistsAPI,
+  UpdateTaskModelType,
+} from "api/todolists-api";
 import { AppDispatch, AppRootStateType, AppThunk } from "app/store";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { appActions } from "app/app.reducer";
@@ -89,28 +96,25 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
   }
 );
 
-const addTask = createAppAsyncThunk<{ task: TaskType }, { todolistId: string; title: string }>(
-  "tasks/addTask",
-  async (arg, thunkApi) => {
-    const { dispatch, rejectWithValue } = thunkApi;
-    try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
-      const res = await todolistsAPI.createTask(arg.todolistId, arg.title);
+const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/addTask", async (arg, thunkApi) => {
+  const { dispatch, rejectWithValue } = thunkApi;
+  try {
+    dispatch(appActions.setAppStatus({ status: "loading" }));
+    const res = await todolistsAPI.createTask(arg);
 
-      if (res.data.resultCode === 0) {
-        const task = res.data.data.item;
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        return { task };
-      } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(null);
-      }
-    } catch (e: any) {
-      handleServerNetworkError(e, dispatch);
+    if (res.data.resultCode === 0) {
+      const task = res.data.data.item;
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      return { task };
+    } else {
+      handleServerAppError(res.data, dispatch);
       return rejectWithValue(null);
     }
+  } catch (e: any) {
+    handleServerNetworkError(e, dispatch);
+    return rejectWithValue(null);
   }
-);
+});
 
 export const updateTaskTC =
   (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk =>
