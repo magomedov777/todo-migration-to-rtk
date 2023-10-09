@@ -53,7 +53,6 @@ const slice = createSlice({
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
 
-// thunks
 export const fetchTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }));
@@ -70,13 +69,10 @@ export const fetchTodolistsTC = (): AppThunk => {
 };
 export const removeTodolistTC = (id: string): AppThunk => {
   return (dispatch) => {
-    //изменим глобальный статус приложения, чтобы вверху полоса побежала
     dispatch(appActions.setAppStatus({ status: "loading" }));
-    //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
     dispatch(todolistsActions.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
     todolistsAPI.deleteTodolist(id).then((res) => {
       dispatch(todolistsActions.removeTodolist({ id }));
-      //скажем глобально приложению, что асинхронная операция завершена
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
     });
   };
