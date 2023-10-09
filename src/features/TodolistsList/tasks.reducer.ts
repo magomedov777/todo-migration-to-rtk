@@ -59,8 +59,6 @@ const slice = createSlice({
   },
 });
 
-// thunks
-
 const removeTask = createAppAsyncThunk<any, any>("tasks/removeTask", async (arg: ArgType, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
@@ -120,7 +118,6 @@ export const updateTaskTC =
     const state = getState();
     const task = state.tasks[todolistId].find((t) => t.id === taskId);
     if (!task) {
-      //throw new Error("task not found in the state");
       console.warn("task not found in the state");
       return;
     }
@@ -153,7 +150,6 @@ export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
 export const tasksThunks = { fetchTasks, removeTask, addTask };
 
-// types
 export type UpdateDomainTaskModelType = {
   title?: string;
   description?: string;
