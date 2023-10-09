@@ -14,7 +14,6 @@ const slice = createSlice({
     removeTodolist: (state, action: PayloadAction<{ id: string }>) => {
       const index = state.findIndex((todo) => todo.id === action.payload.id);
       if (index !== -1) state.splice(index, 1);
-      // return state.filter(tl => tl.id !== action.payload.id)
     },
     addTodolist: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
       const newTodolist: TodolistDomainType = { ...action.payload.todolist, filter: "all", entityStatus: "idle" };
@@ -40,7 +39,6 @@ const slice = createSlice({
     },
     setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
       return action.payload.todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
-      // return action.payload.forEach(t => ({...t, filter: 'active', entityStatus: 'idle'}))
     },
   },
   extraReducers: (builder) => {
@@ -94,7 +92,6 @@ export const changeTodolistTitleTC = (id: string, title: string): AppThunk => {
   };
 };
 
-// types
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
