@@ -150,14 +150,19 @@ test("title of specified task should be changed", () => {
 });
 
 test("new array should be added when new todolist is added", () => {
-  const action = todolistsActions.addTodolist({
-    todolist: {
-      id: "blabla",
-      title: "new todolist",
-      order: 0,
-      addedDate: "",
+  const todolist = {
+    id: "blabla",
+    title: "new todolist",
+    order: 0,
+    addedDate: "",
+  };
+  const action = todolistsThunks.addTodolist.fulfilled(
+    {
+      todolist,
     },
-  });
+    "requestId",
+    "todolist"
+  );
 
   const endState = tasksReducer(startState, action);
 
