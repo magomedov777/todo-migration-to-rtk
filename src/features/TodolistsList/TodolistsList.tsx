@@ -5,8 +5,8 @@ import {
   changeTodolistTitleTC,
   fetchTodolistsTC,
   FilterValuesType,
-  removeTodolistTC,
   todolistsActions,
+  todolistsThunks,
 } from "features/TodolistsList/todolists.reducer";
 import { tasksThunks } from "features/TodolistsList/tasks.reducer";
 import { TaskStatuses } from "api/todolists-api";
@@ -58,9 +58,8 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     dispatch(todolistsActions.changeTodolistFilter({ id, filter }));
   }, []);
 
-  const removeTodolist = useCallback(function (id: string) {
-    const thunk = removeTodolistTC(id);
-    dispatch(thunk);
+  const removeTodolist = useCallback(function (todolistId: string) {
+    dispatch(todolistsThunks.removeTodolist(todolistId));
   }, []);
 
   const changeTodolistTitle = useCallback(function (id: string, title: string) {

@@ -3,6 +3,7 @@ import {
   TodolistDomainType,
   todolistsActions,
   todolistsReducer,
+  todolistsThunks,
 } from "features/TodolistsList/todolists.reducer";
 import { v1 } from "uuid";
 import { TodolistType } from "api/todolists-api";
@@ -22,7 +23,10 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(startState, todolistsActions.removeTodolist({ id: todolistId1 }));
+  const endState = todolistsReducer(
+    startState,
+    todolistsThunks.removeTodolist.fulfilled({ id: "todolistId1" }, "requestId", "todolistId1")
+  );
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
