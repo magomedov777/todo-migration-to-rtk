@@ -64,8 +64,9 @@ test("correct todolist should change its name", () => {
 
 test("correct filter of todolist should be changed", () => {
   let newFilter: FilterValuesType = "completed";
+  const arg = { id: todolistId2, filter: newFilter };
 
-  const action = todolistsActions.changeTodolistFilter({ id: todolistId2, filter: newFilter });
+  const action = todolistsThunks.changeTodolistFilter.fulfilled({ arg }, "requestId", arg);
 
   const endState = todolistsReducer(startState, action);
 

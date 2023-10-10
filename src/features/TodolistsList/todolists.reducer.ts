@@ -12,12 +12,6 @@ const slice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    changeTodolistFilter: (state, action: PayloadAction<{ id: string; filter: FilterValuesType }>) => {
-      const todo = state.find((todo) => todo.id === action.payload.id);
-      if (todo) {
-        todo.filter = action.payload.filter;
-      }
-    },
     changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>) => {
       const todo = state.find((todo) => todo.id === action.payload.id);
       if (todo) {
@@ -46,7 +40,16 @@ const slice = createSlice({
         if (todo) {
           todo.title = action.payload.arg.title;
         }
-      });
+      })
+      .addCase(
+        todolistsThunks.changeTodolistFilter.fulfilled,
+        (state, action: PayloadAction<{ arg: ChangeTodoFilterType }>) => {
+          const todo = state.find((todo) => todo.id === action.payload.arg.id);
+          if (todo) {
+            todo.filter = action.payload.arg.filter;
+          }
+        }
+      );
   },
 });
 
@@ -103,9 +106,23 @@ const changeTodolistTitle = createAppAsyncThunk("todolists/changeTodolistTitle",
   }
 });
 
+const changeTodolistFilter = createAppAsyncThunk(
+  "todolists/changeTodolistFilter",
+  async (arg: ChangeTodoFilterType, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      const res = await todolistsAPI.updateTodolist(arg.id, arg.filter);
+      return { arg };
+    } catch (e: any) {
+      handleServerNetworkError(e, dispatch);
+      return rejectWithValue(null);
+    }
+  }
+);
+
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
-export const todolistsThunks = { removeTodolist, addTodolist, changeTodolistTitle };
+export const todolistsThunks = { removeTodolist, addTodolist, changeTodolistTitle, changeTodolistFilter };
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
@@ -116,4 +133,9 @@ export type TodolistDomainType = TodolistType & {
 export type TodoArgType = {
   id: string;
   title: string;
+};
+
+export type ChangeTodoFilterType = {
+  id: string;
+  filter: FilterValuesType;
 };
