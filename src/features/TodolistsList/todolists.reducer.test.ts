@@ -51,14 +51,15 @@ test("correct todolist should be added", () => {
 });
 
 test("correct todolist should change its name", () => {
-  let newTodolistTitle = "New Todolist";
+  let title = "New Todolist";
+  const arg = { id: todolistId2, title };
 
-  const action = todolistsActions.changeTodolistTitle({ id: todolistId2, title: newTodolistTitle });
+  const action = todolistsThunks.changeTodolistTitle.fulfilled({ arg }, "requestId", arg);
 
   const endState = todolistsReducer(startState, action);
 
   expect(endState[0].title).toBe("What to learn");
-  expect(endState[1].title).toBe(newTodolistTitle);
+  expect(endState[1].title).toBe(title);
 });
 
 test("correct filter of todolist should be changed", () => {
