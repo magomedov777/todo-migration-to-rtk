@@ -12,6 +12,7 @@ const slice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    //Change todolist entity status for changed today
     changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>) => {
       const todo = state.find((todo) => todo.id === action.payload.id);
       if (todo) {
