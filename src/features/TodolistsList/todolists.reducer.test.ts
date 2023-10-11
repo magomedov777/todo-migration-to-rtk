@@ -25,7 +25,7 @@ beforeEach(() => {
 test("correct todolist should be removed", () => {
   const endState = todolistsReducer(
     startState,
-    todolistsThunks.removeTodolist.fulfilled({ id: "todolistId1" }, "requestId", "todolistId1")
+    todolistsThunks.removeTodolist.fulfilled({ id: todolistId1 }, "requestId", "todolistId1")
   );
 
   expect(endState.length).toBe(1);

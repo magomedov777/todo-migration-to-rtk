@@ -6,7 +6,7 @@ import {
   TodolistType,
 } from "api/todolists-api";
 import { appActions, RequestStatusType } from "app/app.reducer";
-import { handleServerNetworkError } from "utils/error-utils";
+import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
@@ -78,13 +78,19 @@ export const fetchTodolistsTC = (): AppThunk => {
   };
 };
 
-const removeTodolist = createAppAsyncThunk<any, any>("todolists/removeTodolist", async (id: string, thunkAPI) => {
+const removeTodolist = createAppAsyncThunk<{ id: string }, string>("todolists/removeTodolist", async (id, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
+    dispatch(todolistsThunks.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
     const res = await todolistsAPI.deleteTodolist(id);
-    dispatch(appActions.setAppStatus({ status: "succeeded" }));
-    return { id };
+    if (res.data.resultCode === 0) {
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      return { id };
+    } else {
+      handleServerAppError(res.data, dispatch);
+      return rejectWithValue(null);
+    }
   } catch (e: any) {
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
