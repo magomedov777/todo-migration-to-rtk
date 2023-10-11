@@ -54,6 +54,7 @@ const slice = createSlice({
   },
 });
 
+//fetch todo for rewrite on RTK today
 export const fetchTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }));
