@@ -12,6 +12,7 @@ const slice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    //Change todolist entity status for changed today
     changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>) => {
       const todo = state.find((todo) => todo.id === action.payload.id);
       if (todo) {
@@ -53,6 +54,7 @@ const slice = createSlice({
   },
 });
 
+//fetch todo for rewrite on RTK today
 export const fetchTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }));
@@ -130,6 +132,7 @@ export type TodolistDomainType = TodolistType & {
   entityStatus: RequestStatusType;
 };
 
+//filters for move to API
 export type TodoArgType = {
   id: string;
   title: string;
