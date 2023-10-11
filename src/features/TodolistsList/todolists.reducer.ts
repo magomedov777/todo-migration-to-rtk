@@ -1,4 +1,10 @@
-import { todolistsAPI, TodolistType } from "api/todolists-api";
+import {
+  ChangeTodoFilterType,
+  ChangeTodolistEntityStatusType,
+  TodoArgType,
+  todolistsAPI,
+  TodolistType,
+} from "api/todolists-api";
 import { appActions, RequestStatusType } from "app/app.reducer";
 import { handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
@@ -76,7 +82,6 @@ const removeTodolist = createAppAsyncThunk<any, any>("todolists/removeTodolist",
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
-    dispatch(todolistsThunks.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
     const res = await todolistsAPI.deleteTodolist(id);
     dispatch(appActions.setAppStatus({ status: "succeeded" }));
     return { id };
@@ -151,21 +156,5 @@ export const todolistsThunks = {
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
-  entityStatus: RequestStatusType;
-};
-
-//filters for move to API
-export type TodoArgType = {
-  id: string;
-  title: string;
-};
-
-export type ChangeTodoFilterType = {
-  id: string;
-  filter: FilterValuesType;
-};
-
-export type ChangeTodolistEntityStatusType = {
-  id: string;
   entityStatus: RequestStatusType;
 };
