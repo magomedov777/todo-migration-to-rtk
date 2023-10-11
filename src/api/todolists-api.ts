@@ -1,5 +1,7 @@
+import { RequestStatusType } from "app/app.reducer";
 import axios from "axios";
 import { UpdateDomainTaskModelType } from "features/TodolistsList/tasks.reducer";
+import { FilterValuesType } from "features/TodolistsList/todolists.reducer";
 
 const settings = {
   withCredentials: true,
@@ -126,4 +128,19 @@ export type UpdateTaskArgType = {
   taskId: string;
   domainModel: UpdateDomainTaskModelType;
   todolistId: string;
+};
+
+export type TodoArgType = {
+  id: string;
+  title: string;
+};
+
+export type ChangeTodoFilterType = {
+  id: string;
+  filter: FilterValuesType;
+};
+
+export type ChangeTodolistEntityStatusType = {
+  id: string;
+  entityStatus: RequestStatusType;
 };
