@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
-  fetchTodolistsTC,
   FilterValuesType,
   todolistsActions,
   todolistsThunks,
@@ -32,7 +31,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     if (demo || !isLoggedIn) {
       return;
     }
-    const thunk = fetchTodolistsTC();
+    const thunk = todolistsThunks.fetchTodolists();
     dispatch(thunk);
   }, []);
 
