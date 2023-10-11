@@ -12,6 +12,13 @@ const slice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    //Change todolist entity status for changed today
+    changeTodolistEntityStatus: (state, action: PayloadAction<{ id: string; entityStatus: RequestStatusType }>) => {
+      const todo = state.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        todo.entityStatus = action.payload.entityStatus;
+      }
+    },
     setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
       return action.payload.todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
@@ -43,15 +50,6 @@ const slice = createSlice({
             todo.filter = action.payload.arg.filter;
           }
         }
-      )
-      .addCase(
-        todolistsThunks.changeTodolistEntityStatus.fulfilled,
-        (state, action: PayloadAction<{ arg: ChangeTodoEntityStatusType }>) => {
-          const todo = state.find((todo) => todo.id === action.payload.arg.id);
-          if (todo) {
-            todo.entityStatus = action.payload.arg.entityStatus;
-          }
-        }
       );
   },
 });
@@ -76,7 +74,7 @@ const removeTodolist = createAppAsyncThunk<any, any>("todolists/removeTodolist",
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
-    dispatch(todolistsThunks.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
+    dispatch(todolistsActions.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
     const res = await todolistsAPI.deleteTodolist(id);
     dispatch(appActions.setAppStatus({ status: "succeeded" }));
     return { id };
@@ -124,29 +122,9 @@ const changeTodolistFilter = createAppAsyncThunk(
   }
 );
 
-const changeTodolistEntityStatus = createAppAsyncThunk(
-  "todolists/changeTodolistEntityStatus",
-  async (arg: ChangeTodoEntityStatusType, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      const res = await todolistsAPI.updateTodolist(arg.id, arg.entityStatus);
-      return { arg };
-    } catch (e: any) {
-      handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
-    }
-  }
-);
-
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
-export const todolistsThunks = {
-  removeTodolist,
-  addTodolist,
-  changeTodolistTitle,
-  changeTodolistFilter,
-  changeTodolistEntityStatus,
-};
+export const todolistsThunks = { removeTodolist, addTodolist, changeTodolistTitle, changeTodolistFilter };
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
@@ -154,7 +132,7 @@ export type TodolistDomainType = TodolistType & {
   entityStatus: RequestStatusType;
 };
 
-//types for move to API
+//filters for move to API
 export type TodoArgType = {
   id: string;
   title: string;
@@ -163,9 +141,4 @@ export type TodoArgType = {
 export type ChangeTodoFilterType = {
   id: string;
   filter: FilterValuesType;
-};
-
-export type ChangeTodoEntityStatusType = {
-  id: string;
-  entityStatus: RequestStatusType;
 };
