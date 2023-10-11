@@ -132,6 +132,7 @@ export type TodolistDomainType = TodolistType & {
   entityStatus: RequestStatusType;
 };
 
+//filters for move to API
 export type TodoArgType = {
   id: string;
   title: string;
