@@ -6,11 +6,12 @@ import {
   TodolistType,
 } from "api/todolists-api";
 import { appActions, RequestStatusType } from "app/app.reducer";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { createAppAsyncThunk } from "utils/create-app-async-thunk";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
+import { handleServerAppError } from "utils/handle-server-app-error";
 
 const initialState: TodolistDomainType[] = [];
 
@@ -64,22 +65,6 @@ const slice = createSlice({
       );
   },
 });
-
-//fetch todo for rewrite on RTK today
-// const fetchTodolistsTC = (): AppThunk => {
-//   return (dispatch) => {
-//     dispatch(appActions.setAppStatus({ status: "loading" }));
-//     todolistsAPI
-//       .getTodolists()
-//       .then((res) => {
-//         dispatch(todolistsActions.setTodolists({ todolists: res.data }));
-//         dispatch(appActions.setAppStatus({ status: "succeeded" }));
-//       })
-//       .catch((error) => {
-//         handleServerNetworkError(error, dispatch);
-//       });
-//   };
-// };
 
 const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
   "todo/fetchTodolists",
