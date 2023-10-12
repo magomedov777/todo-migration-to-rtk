@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   FilterValuesType,
-  todolistsActions,
   todolistsThunks,
 } from "features/TodolistsList/todolists.reducer";
 import { tasksThunks } from "features/TodolistsList/tasks.reducer";
