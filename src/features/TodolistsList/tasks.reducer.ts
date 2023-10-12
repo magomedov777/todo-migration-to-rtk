@@ -7,12 +7,13 @@ import {
   UpdateTaskArgType,
   UpdateTaskModelType,
 } from "api/todolists-api";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { appActions } from "app/app.reducer";
 import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolists.reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { createAppAsyncThunk } from "utils/create-app-async-thunk";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
+import { handleServerAppError } from "utils/handle-server-app-error";
 
 const initialState: TasksStateType = {};
 
