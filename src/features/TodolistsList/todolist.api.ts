@@ -1,21 +1,9 @@
+import { ResponseType, instance } from "api/common.api";
+import { UpdateDomainTaskModelType } from "./tasks.reducer";
+import { FilterValuesType } from "./todolists.reducer";
 import { RequestStatusType } from "app/app.reducer";
-import axios from "axios";
-import { UpdateDomainTaskModelType } from "features/TodolistsList/tasks.reducer";
-import { FilterValuesType } from "features/TodolistsList/todolists.reducer";
-import { TaskPriorities, TaskStatuses } from "utils/enums";
+import { TaskPriorities, TaskStatuses } from "utils";
 
-const settings = {
-  withCredentials: true,
-  headers: {
-    "API-KEY": "1cdd9f77-c60e-4af5-b194-659e4ebd5d41",
-  },
-};
-const instance = axios.create({
-  baseURL: "https://social-network.samuraijs.com/api/1.1/",
-  ...settings,
-});
-
-// api
 export const todolistsAPI = {
   getTodolists() {
     const promise = instance.get<TodolistType[]>("todo-lists");
@@ -47,39 +35,11 @@ export const todolistsAPI = {
   },
 };
 
-export type LoginParamsType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  captcha?: string;
-};
-
-export const authAPI = {
-  login(data: LoginParamsType) {
-    const promise = instance.post<ResponseType<{ userId?: number }>>("auth/login", data);
-    return promise;
-  },
-  logout() {
-    const promise = instance.delete<ResponseType<{ userId?: number }>>("auth/login");
-    return promise;
-  },
-  me() {
-    const promise = instance.get<ResponseType<{ id: number; email: string; login: string }>>("auth/me");
-    return promise;
-  },
-};
-
-// types
 export type TodolistType = {
   id: string;
   title: string;
   addedDate: string;
   order: number;
-};
-export type ResponseType<D = {}> = {
-  resultCode: number;
-  messages: Array<string>;
-  data: D;
 };
 
 export type TaskType = {
