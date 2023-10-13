@@ -45,7 +45,6 @@ const slice = createSlice({
           state[tl.id] = [];
         });
       })
-      //case for clean state after remove list
       .addCase(clearTasksAndTodolists, () => {
         return {};
       });

@@ -5,6 +5,7 @@ import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { handleServerAppError } from "utils/handle-server-app-error";
 import { handleServerNetworkError } from "utils/handle-server-network-error";
 import { authAPI, LoginParamsType } from "./auth.api";
+import { createAppAsyncThunk } from "utils";
 
 const slice = createSlice({
   name: "auth",
@@ -21,24 +22,41 @@ const slice = createSlice({
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
 
-export const loginTC =
-  (data: LoginParamsType): AppThunk =>
-  (dispatch) => {
+const login = createAppAsyncThunk("auth/me", async (arg: LoginParamsType, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
-    authAPI
-      .login(data)
-      .then((res) => {
-        if (res.data.resultCode === 0) {
-          dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-          dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        } else {
-          handleServerAppError(res.data, dispatch);
-        }
-      })
-      .catch((error) => {
-        handleServerNetworkError(error, dispatch);
-      });
-  };
+    const res = await authAPI.login(arg);
+    if (res.data.resultCode === 0) {
+      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+    } else {
+      handleServerAppError(res.data, dispatch);
+    }
+  } catch (e: any) {
+    handleServerNetworkError(e, dispatch);
+    return rejectWithValue(null);
+  }
+});
+
+// export const _loginTC =
+//   (data: LoginParamsType): AppThunk =>
+//   (dispatch) => {
+//     dispatch(appActions.setAppStatus({ status: "loading" }));
+//     authAPI
+//       .login(data)
+//       .then((res) => {
+//         if (res.data.resultCode === 0) {
+//           dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+//           dispatch(appActions.setAppStatus({ status: "succeeded" }));
+//         } else {
+//           handleServerAppError(res.data, dispatch);
+//         }
+//       })
+//       .catch((error) => {
+//         handleServerNetworkError(error, dispatch);
+//       });
+//   };
 
 export const logoutTC = (): AppThunk => (dispatch) => {
   dispatch(appActions.setAppStatus({ status: "loading" }));
@@ -57,3 +75,5 @@ export const logoutTC = (): AppThunk => (dispatch) => {
       handleServerNetworkError(error, dispatch);
     });
 };
+
+export const authThunk = { login };
