@@ -1,9 +1,3 @@
-export enum ResultCode {
-  success = 0,
-  error = 1,
-  captcha = 10,
-}
-
 export enum TaskStatuses {
   New = 0,
   InProgress = 1,
@@ -16,4 +10,10 @@ export enum TaskPriorities {
   Hi = 2,
   Urgently = 3,
   Later = 4,
+}
+
+export enum ResultCode {
+  success = 0,
+  error = 1,
+  captcha = 10,
 }
