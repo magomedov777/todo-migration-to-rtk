@@ -1,9 +1,4 @@
-import {
-  TodolistDomainType,
-  todolistsActions,
-  todolistsReducer,
-  todolistsThunks,
-} from "features/TodolistsList/todolists.reducer";
+import { TodolistDomainType, todolistsReducer, todolistsThunks } from "features/TodolistsList/todolists.reducer";
 import { tasksReducer, TasksStateType } from "features/TodolistsList/tasks.reducer";
 import { TodolistType } from "./todolist.api";
 

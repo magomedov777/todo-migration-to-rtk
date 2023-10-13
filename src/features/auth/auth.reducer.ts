@@ -21,7 +21,6 @@ const slice = createSlice({
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
 
-// thunks
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
   (dispatch) => {

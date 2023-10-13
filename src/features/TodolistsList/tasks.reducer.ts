@@ -1,5 +1,5 @@
 import { appActions } from "app/app.reducer";
-import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolists.reducer";
+import { todolistsThunks } from "features/TodolistsList/todolists.reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { createAppAsyncThunk } from "utils/create-app-async-thunk";
@@ -45,6 +45,7 @@ const slice = createSlice({
           state[tl.id] = [];
         });
       })
+      //case for clean state after remove list
       .addCase(clearTasksAndTodolists, () => {
         return {};
       });
