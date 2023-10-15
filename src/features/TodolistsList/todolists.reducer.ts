@@ -1,7 +1,7 @@
 import { appActions, RequestStatusType } from "app/app.reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
-import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "utils";
+import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError, ResultCode } from "utils";
 import {
   ChangeTodoFilterType,
   ChangeTodolistEntityStatusType,
@@ -85,7 +85,7 @@ const removeTodolist = createAppAsyncThunk<{ id: string }, string>("todolists/re
     dispatch(appActions.setAppStatus({ status: "loading" }));
     dispatch(todolistsThunks.changeTodolistEntityStatus({ id, entityStatus: "loading" }));
     const res = await todolistsAPI.deleteTodolist(id);
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { id };
     } else {

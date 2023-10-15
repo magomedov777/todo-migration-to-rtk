@@ -5,7 +5,7 @@ import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { handleServerAppError } from "utils/handle-server-app-error";
 import { handleServerNetworkError } from "utils/handle-server-network-error";
 import { authAPI, LoginParamsType } from "./auth.api";
-import { createAppAsyncThunk } from "utils";
+import { createAppAsyncThunk, ResultCode } from "utils";
 
 const slice = createSlice({
   name: "auth",
@@ -27,7 +27,7 @@ const login = createAppAsyncThunk("auth/me", async (arg: LoginParamsType, thunkA
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await authAPI.login(arg);
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
     } else {
@@ -43,7 +43,7 @@ const logout = createAppAsyncThunk("auth/logout", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     const res = await authAPI.logout();
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
       dispatch(clearTasksAndTodolists());
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
