@@ -7,6 +7,7 @@ import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, 
 import { selectIsLoggedIn } from "features/auth/auth.selectors";
 import { authThunk } from "./auth.reducer";
 import { LoginParamsType } from "./auth.api";
+import { ResponseType } from "common/types";
 export const Login = () => {
   const dispatch = useAppDispatch();
 
@@ -33,8 +34,8 @@ export const Login = () => {
     onSubmit: (values, FormikHelpers: FormikHelpers<LoginParamsType>) => {
       dispatch(authThunk.login(values))
         .unwrap()
-        .catch((reason) => {
-          FormikHelpers.setFieldError('email', 'ERROR')
+        .catch((reason: ResponseType) => {
+          FormikHelpers.setFieldError(reason.fieldsErrors[0].field, reason.fieldsErrors[0].error)
         })
     },
   });
