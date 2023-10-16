@@ -1,8 +1,9 @@
-import { ResponseType, instance } from "api/common.api";
+import { instance } from "api/common.api";
 import { UpdateDomainTaskModelType } from "./tasks.reducer";
 import { FilterValuesType } from "./todolists.reducer";
 import { RequestStatusType } from "app/app.reducer";
 import { TaskPriorities, TaskStatuses } from "utils";
+import { ResponseType } from "common/types";
 
 export const todolistsAPI = {
   getTodolists() {
