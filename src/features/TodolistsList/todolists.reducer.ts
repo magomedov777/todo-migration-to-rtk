@@ -132,13 +132,15 @@ const changeTodolistFilter = createAppAsyncThunk(
   "todolists/changeTodolistFilter",
   async (arg: ChangeTodoFilterType, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsAPI.updateTodolist(arg.id, arg.filter);
-      return { arg };
-    } catch (e: any) {
-      handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
-    }
+      if (res.data.resultCode === ResultCode.success) {
+        return { arg };
+      } else {
+        handleServerAppError(res.data, dispatch);
+        return rejectWithValue(null);
+      }
+    });
   }
 );
 
