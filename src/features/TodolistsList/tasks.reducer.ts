@@ -104,7 +104,6 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
         console.warn("task not found in the state");
         return rejectWithValue(null);
       }
-
       const apiModel: UpdateTaskModelType = {
         deadline: task.deadline,
         description: task.description,
