@@ -148,13 +148,15 @@ const changeTodolistEntityStatus = createAppAsyncThunk(
   "todolists/changeTodolistEntityStatus",
   async (arg: ChangeTodolistEntityStatusType, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsAPI.updateTodolist(arg.id, arg.entityStatus);
-      return { arg };
-    } catch (e: any) {
-      handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
-    }
+      if (res.data.resultCode === ResultCode.success) {
+        return { arg };
+      } else {
+        handleServerAppError(res.data, dispatch);
+        return rejectWithValue(null);
+      }
+    });
   }
 );
 
