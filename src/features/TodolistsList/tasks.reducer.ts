@@ -54,15 +54,12 @@ const slice = createSlice({
 
 const removeTask = createAppAsyncThunk<any, any>("tasks/removeTask", async (arg: ArgType, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  try {
+  return thunkTryCatch(thunkAPI, async () => {
     const { taskId, todolistId } = arg;
     const res = await todolistsAPI.deleteTask(todolistId, taskId);
     dispatch(tasksActions.removeTask({ taskId, todolistId }));
     return { arg };
-  } catch (e: any) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
-  }
+  });
 });
 
 const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, string>(
