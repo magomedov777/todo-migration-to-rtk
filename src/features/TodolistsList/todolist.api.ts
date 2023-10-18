@@ -1,9 +1,6 @@
 import { instance } from "api/common.api";
-import { UpdateDomainTaskModelType } from "./tasks.reducer";
-import { FilterValuesType } from "./todolists.reducer";
-import { RequestStatusType } from "app/app.reducer";
-import { TaskPriorities, TaskStatuses } from "utils";
 import { ResponseType } from "common/types";
+import { TodolistType } from "./todolist.api.types";
 
 export const todolistsAPI = {
   getTodolists() {
@@ -22,26 +19,4 @@ export const todolistsAPI = {
     const promise = instance.put<ResponseType>(`todo-lists/${id}`, { title: title });
     return promise;
   },
-};
-
-export type TodolistType = {
-  id: string;
-  title: string;
-  addedDate: string;
-  order: number;
-};
-
-export type TodoArgType = {
-  id: string;
-  title: string;
-};
-
-export type ChangeTodoFilterType = {
-  id: string;
-  filter: FilterValuesType;
-};
-
-export type ChangeTodolistEntityStatusType = {
-  id: string;
-  entityStatus: RequestStatusType;
 };
