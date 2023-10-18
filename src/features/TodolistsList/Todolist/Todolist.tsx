@@ -8,7 +8,7 @@ import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { tasksThunks } from "../tasks.reducer";
 import { TaskStatuses } from "utils/enums";
-import { TaskType } from "./task.api";
+import { TaskType } from "./task.api.types";
 
 type PropsType = {
   todolist: TodolistDomainType;
