@@ -2,6 +2,7 @@ import { TaskPriorities, TaskStatuses } from "utils";
 import { UpdateDomainTaskModelType } from "../tasks.reducer";
 import { instance } from "api/common.api";
 import { ResponseType } from "common/types";
+import { AddTaskArgType, GetTasksResponse, TaskType, UpdateTaskModelType } from "./task.api.types";
 
 export const taskAPI = {
   getTasks(todolistId: string) {
@@ -16,41 +17,4 @@ export const taskAPI = {
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
     return instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
-};
-
-export type TaskType = {
-  description: string;
-  title: string;
-  status: TaskStatuses;
-  priority: TaskPriorities;
-  startDate: string;
-  deadline: string;
-  id: string;
-  todoListId: string;
-  order: number;
-  addedDate: string;
-};
-export type UpdateTaskModelType = {
-  title: string;
-  description: string;
-  status: TaskStatuses;
-  priority: TaskPriorities;
-  startDate: string;
-  deadline: string;
-};
-type GetTasksResponse = {
-  error: string | null;
-  totalCount: number;
-  items: TaskType[];
-};
-
-export type AddTaskArgType = {
-  todolistId: string;
-  title: string;
-};
-
-export type UpdateTaskArgType = {
-  taskId: string;
-  domainModel: UpdateDomainTaskModelType;
-  todolistId: string;
 };

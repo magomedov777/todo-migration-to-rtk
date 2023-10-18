@@ -8,7 +8,8 @@ import { handleServerAppError } from "utils/handle-server-app-error";
 import { ResultCode, TaskPriorities, TaskStatuses } from "utils/enums";
 import { todolistsAPI } from "./todolist.api";
 import { thunkTryCatch } from "utils/thunk-try-catch";
-import { AddTaskArgType, taskAPI, TaskType, UpdateTaskArgType, UpdateTaskModelType } from "./Todolist/task.api";
+import { taskAPI } from "./Todolist/task.api";
+import { AddTaskArgType, TaskType, UpdateTaskArgType, UpdateTaskModelType } from "./Todolist/task.api.types";
 
 const initialState: TasksStateType = {};
 
