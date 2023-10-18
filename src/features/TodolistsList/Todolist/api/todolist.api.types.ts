@@ -1,4 +1,4 @@
-import { FilterValuesType } from "./todolists.reducer";
+import { FilterValuesType } from "../model/todolists.reducer";
 import { RequestStatusType } from "app/app.reducer";
 
 export type TodolistType = {

@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import {
   FilterValuesType,
   todolistsThunks,
-} from "features/TodolistsList/todolists.reducer";
-import { tasksThunks } from "features/TodolistsList/tasks.reducer";
+} from "features/TodolistsList/Todolist/model/todolists.reducer";
+import { tasksThunks } from "features/TodolistsList/Todolist/Task/model/tasks.reducer";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "features/auth/auth.selectors";
-import { selectTasks } from "features/TodolistsList/tasks.selectors";
-import { selectTodolists } from "features/TodolistsList/todolists.selectors";
+import { selectTasks } from "features/TodolistsList/Todolist/Task/model/tasks.selectors";
+import { selectTodolists } from "features/TodolistsList/Todolist/model/todolists.selectors";
 import { TaskStatuses } from "utils/enums";
 import { useActions } from "hooks";
 
