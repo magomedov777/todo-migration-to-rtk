@@ -1,5 +1,3 @@
-import { TaskPriorities, TaskStatuses } from "utils";
-import { UpdateDomainTaskModelType } from "../tasks.reducer";
 import { instance } from "api/common.api";
 import { ResponseType } from "common/types";
 import { AddTaskArgType, GetTasksResponse, TaskType, UpdateTaskModelType } from "./task.api.types";

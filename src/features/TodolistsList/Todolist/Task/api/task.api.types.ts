@@ -1,5 +1,5 @@
 import { TaskPriorities, TaskStatuses } from "utils";
-import { UpdateDomainTaskModelType } from "../tasks.reducer";
+import { UpdateDomainTaskModelType } from "../model/tasks.reducer";
 
 export type TaskType = {
   description: string;
