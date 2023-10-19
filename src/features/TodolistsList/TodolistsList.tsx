@@ -14,11 +14,11 @@ import { selectTasks } from "features/TodolistsList/Todolist/Task/model/tasks.se
 import { selectTodolists } from "features/TodolistsList/Todolist/model/todolists.selectors";
 import { useActions } from "hooks";
 
-type PropsType = {
+type Props = {
   demo?: boolean;
 };
 
-export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
+export const TodolistsList: React.FC<Props> = ({ demo = false }) => {
   const todolists = useSelector(selectTodolists);
   const tasks = useSelector(selectTasks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -34,39 +34,21 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   //   removeTask: removeTaskThunk,
   //   updateTask: updateTaskThunk } = useActions(tasksThunks)
 
-  const {
-
-    addTodolist: addTodolistThunk,
-    changeTodolistTitle: changeTodolistTitleThunk,
-    changeTodolistFilter: changeTodolistFilterThunk,
-    fetchTasks,
-    fetchTodolists,
-    removeTodolist: removeTodolistThunk,
-    updateTask: updateTaskThunk
+  const { addTodolist: addTodolistThunk,
+    fetchTodolists
   } = useActions({ ...todolistsThunks, ...tasksThunks })
-
   useEffect(() => {
-    if (demo || !isLoggedIn) {
-      return;
-    }
-    fetchTodolists();
-
-
+    fetchTodolists()
   }, []);
-
-
 
   const addTodolist = useCallback(
     (title: string) => {
       addTodolistThunk(title)
-    },
-    []
-  );
+    }, []);
 
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />;
   }
-
   return (
     <>
       <Grid container style={{ padding: "20px" }}>
@@ -75,14 +57,12 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
       <Grid container spacing={3}>
         {todolists.map((tl) => {
           let allTodolistTasks = tasks[tl.id];
-
           return (
             <Grid item key={tl.id}>
               <Paper style={{ padding: "10px" }}>
                 <Todolist
                   todolist={tl}
                   tasks={allTodolistTasks}
-
                   demo={demo}
                 />
               </Paper>
