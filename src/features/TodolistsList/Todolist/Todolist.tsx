@@ -10,6 +10,7 @@ import { TaskStatuses } from "utils/enums";
 import { TaskType } from "./Task/api/task.api.types";
 import { useActions } from "hooks";
 import { Task } from "./Task/task";
+import { FilterTasksButtons } from "./filter-tasks-buttons/filter.tasks.buttons";
 
 type PropsType = {
   todolist: TodolistDomainType;
@@ -21,7 +22,7 @@ type PropsType = {
 
 export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
   const { fetchTasks, addTask } = useActions(tasksThunks)
-  const { removeTodolist, changeTodolistFilter, changeTodolistTitle } = useActions(todolistsThunks)
+  const { removeTodolist, changeTodolistTitle } = useActions(todolistsThunks)
 
   useEffect(() => {
     fetchTasks(props.todolist.id)
@@ -41,12 +42,6 @@ export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
       changeTodolistTitle({ id: props.todolist.id, title });
     }
 
-  const onAllClickHandler =
-    () => changeTodolistFilter({ filter: "all", id: props.todolist.id })
-  const onActiveClickHandler =
-    () => changeTodolistFilter({ filter: "active", id: props.todolist.id })
-  const onCompletedClickHandler =
-    () => changeTodolistFilter({ filter: "completed", id: props.todolist.id })
 
   let tasksForTodolist = props.tasks;
 
@@ -76,27 +71,7 @@ export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
         ))}
       </div>
       <div style={{ paddingTop: "10px" }}>
-        <Button
-          variant={props.todolist.filter === "all" ? "outlined" : "text"}
-          onClick={onAllClickHandler}
-          color={"inherit"}
-        >
-          All
-        </Button>
-        <Button
-          variant={props.todolist.filter === "active" ? "outlined" : "text"}
-          onClick={onActiveClickHandler}
-          color={"primary"}
-        >
-          Active
-        </Button>
-        <Button
-          variant={props.todolist.filter === "completed" ? "outlined" : "text"}
-          onClick={onCompletedClickHandler}
-          color={"secondary"}
-        >
-          Completed
-        </Button>
+        <FilterTasksButtons todolist={props.todolist} />
       </div>
     </div>
   );
