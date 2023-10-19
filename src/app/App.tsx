@@ -21,11 +21,8 @@ import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
 import { authThunk } from "features/auth/auth.reducer";
 import { useActions } from "hooks";
 
-type PropsType = {
-  demo?: boolean;
-};
 
-function App({ demo = false }: PropsType) {
+const App = () => {
   const status = useSelector(selectAppStatus);
   const isInitialized = useSelector(selectIsInitialized);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -33,7 +30,6 @@ function App({ demo = false }: PropsType) {
   const { initializeApp, logout } = useActions(authThunk);
 
   useEffect(() => {
-    // dispatch(authThunk.initializeApp());
     initializeApp()
 
   }, []);
@@ -70,7 +66,7 @@ function App({ demo = false }: PropsType) {
         </AppBar>
         <Container fixed>
           <Routes>
-            <Route path={"/"} element={<TodolistsList demo={demo} />} />
+            <Route path={"/"} element={<TodolistsList />} />
             <Route path={"/login"} element={<Login />} />
           </Routes>
         </Container>
