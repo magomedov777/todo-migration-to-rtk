@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableSpan } from "components/EditableSpan/EditableSpan";
-import { Task } from "./Task/Task";
 import { FilterValuesType, TodolistDomainType } from "features/TodolistsList/Todolist/model/todolists.reducer";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { Button, IconButton } from "@mui/material";
@@ -9,6 +8,7 @@ import { Delete } from "@mui/icons-material";
 import { tasksThunks } from "./Task/model/tasks.reducer";
 import { TaskStatuses } from "utils/enums";
 import { TaskType } from "./Task/api/task.api.types";
+import { Task } from "./Task/task";
 
 type PropsType = {
   todolist: TodolistDomainType;
