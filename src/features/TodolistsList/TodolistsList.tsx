@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  FilterValuesType,
-  todolistsThunks,
-} from "features/TodolistsList/Todolist/model/todolists.reducer";
+import { todolistsThunks } from "features/TodolistsList/Todolist/model/todolists.reducer";
 import { tasksThunks } from "features/TodolistsList/Todolist/Task/model/tasks.reducer";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
