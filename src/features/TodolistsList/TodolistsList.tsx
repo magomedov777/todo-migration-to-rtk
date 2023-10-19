@@ -11,11 +11,9 @@ import { selectTasks } from "features/TodolistsList/Todolist/Task/model/tasks.se
 import { selectTodolists } from "features/TodolistsList/Todolist/model/todolists.selectors";
 import { useActions } from "hooks";
 
-type Props = {
-  demo?: boolean;
-};
 
-export const TodolistsList: React.FC<Props> = ({ demo = false }) => {
+
+export const TodolistsList = () => {
   const todolists = useSelector(selectTodolists);
   const tasks = useSelector(selectTasks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -60,7 +58,6 @@ export const TodolistsList: React.FC<Props> = ({ demo = false }) => {
                 <Todolist
                   todolist={tl}
                   tasks={allTodolistTasks}
-                  demo={demo}
                 />
               </Paper>
             </Grid>
