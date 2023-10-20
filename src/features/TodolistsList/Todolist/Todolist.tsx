@@ -9,6 +9,7 @@ import { TaskType } from "./Task/api/task.api.types";
 import { useActions } from "hooks";
 import { FilterTasksButtons } from "./filter-tasks-buttons/filter.tasks.buttons";
 import { Tasks } from "../tasks";
+import { TodolistTitle } from "./todolist-title";
 
 type Props = {
   todolist: TodolistDomainType;
@@ -17,8 +18,6 @@ type Props = {
 
 export const Todolist: FC<Props> = memo(({ todolist, tasks }) => {
   const { fetchTasks, addTask } = useActions(tasksThunks)
-  const { removeTodolist, changeTodolistTitle } = useActions(todolistsThunks)
-
   useEffect(() => {
     fetchTasks(todolist.id)
   }, []);
@@ -27,23 +26,9 @@ export const Todolist: FC<Props> = memo(({ todolist, tasks }) => {
     (title: string) => {
       addTask({ title, todolistId: todolist.id });
     }
-
-  const removeTodolistHandler = () => {
-    removeTodolist(todolist.id);
-  };
-
-  const changeTodolistTitleHandler =
-    (title: string) => {
-      changeTodolistTitle({ id: todolist.id, title });
-    }
   return (
     <div>
-      <h3>
-        <EditableSpan value={todolist.title} onChange={changeTodolistTitleHandler} />
-        <IconButton onClick={removeTodolistHandler} disabled={todolist.entityStatus === "loading"}>
-          <Delete />
-        </IconButton>
-      </h3>
+      <TodolistTitle todolist={todolist} />
       <AddItemForm addItem={addTaskHandler} disabled={todolist.entityStatus === "loading"} />
       <Tasks todolist={todolist} tasks={tasks} />
       <div style={{ paddingTop: "10px" }}>
