@@ -38,7 +38,7 @@ export const TodolistsList = () => {
 
   const addTodolistCallback = useCallback(
     (title: string) => {
-      return addTodolist(title).unwrap()
+      return addTodolist(title)
     }, []);
 
   if (!isLoggedIn) {
