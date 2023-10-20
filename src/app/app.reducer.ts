@@ -37,8 +37,14 @@ const slice = createSlice({
         (action: AnyAction) => {
           return action.type.endsWith("/rejected");
         },
-        (state) => {
+        (state, action) => {
           state.status = "failed";
+          if (action.type.includes("addTodolist")) return;
+          if (action.payload) {
+            state.error = action.payload.messages[0];
+          } else {
+            state.error = action.error.message ? action.error.message : "Some error occured";
+          }
         }
       )
       .addMatcher(
