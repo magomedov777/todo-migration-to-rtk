@@ -21,7 +21,7 @@ export const Todolist: FC<Props> = memo(({ todolist, tasks }) => {
 
   const addTaskHandler =
     (title: string) => {
-      return addTask({ title, todolistId: todolist.id }).unwrap()
+      return addTask({ title, todolistId: todolist.id })
     }
   return (
     <div>

@@ -4,7 +4,7 @@ import { AddBox } from "@mui/icons-material";
 import { ResponseType } from "common/types";
 
 type Props = {
-  addItem: (title: string) => Promise<any>
+  addItem: (title: string) => void
   disabled?: boolean;
 };
 
@@ -14,13 +14,10 @@ export const AddItemForm: FC<Props> = memo(({ addItem, disabled = false }) => {
 
   const addItemHandler = () => {
     if (title.trim() !== "") {
-      addItem(title).then(() => {
-        setTitle("")
-      }).catch((reason: ResponseType) => {
-        setError(reason.messages[0])
-      })
+      addItem(title)
+      setTitle("")
     } else {
-      setError("Title is required");
+      setError('error')
     }
   };
 
