@@ -29,16 +29,16 @@ export const TodolistsList = () => {
   //   removeTask: removeTaskThunk,
   //   updateTask: updateTaskThunk } = useActions(tasksThunks)
 
-  const { addTodolist: addTodolistThunk,
+  const { addTodolist,
     fetchTodolists
   } = useActions({ ...todolistsThunks, ...tasksThunks })
   useEffect(() => {
     fetchTodolists()
   }, []);
 
-  const addTodolist = useCallback(
+  const addTodolistCallback = useCallback(
     (title: string) => {
-      addTodolistThunk(title)
+      return addTodolist(title).unwrap()
     }, []);
 
   if (!isLoggedIn) {
@@ -47,7 +47,7 @@ export const TodolistsList = () => {
   return (
     <>
       <Grid container style={{ padding: "20px" }}>
-        <AddItemForm addItem={addTodolist} />
+        <AddItemForm addItem={addTodolistCallback} />
       </Grid>
       <Grid container spacing={3}>
         {todolists.map((tl) => {

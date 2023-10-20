@@ -1,9 +1,6 @@
 import React, { FC, memo, useEffect } from "react";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
-import { EditableSpan } from "components/EditableSpan/EditableSpan";
-import { TodolistDomainType, todolistsThunks } from "features/TodolistsList/Todolist/model/todolists.reducer";
-import { IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { TodolistDomainType } from "features/TodolistsList/Todolist/model/todolists.reducer";
 import { tasksThunks } from "./Task/model/tasks.reducer";
 import { TaskType } from "./Task/api/task.api.types";
 import { useActions } from "hooks";
@@ -24,7 +21,7 @@ export const Todolist: FC<Props> = memo(({ todolist, tasks }) => {
 
   const addTaskHandler =
     (title: string) => {
-      addTask({ title, todolistId: todolist.id });
+      return addTask({ title, todolistId: todolist.id }).unwrap()
     }
   return (
     <div>
