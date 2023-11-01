@@ -19,10 +19,9 @@ export const Todolist: FC<Props> = memo(({ todolist, tasks }) => {
     fetchTasks(todolist.id)
   }, []);
 
-  const addTaskHandler =
-    (title: string) => {
-      return addTask({ title, todolistId: todolist.id })
-    }
+  const addTaskHandler = (title: string) => {
+    return addTask({ title, todolistId: todolist.id })
+  }
   return (
     <div>
       <TodolistTitle todolist={todolist} />
